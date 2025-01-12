@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive - Assesment</title>
+    <link href="./css/task2.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
+        integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><i class="fas fa-brain" style="color:white"></i> &nbsp;Cognitive</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-md-auto gap-2">
+                    <li class="nav-item rounded">
+                        <a class="nav-link active" aria-current="page" href="#"><i
+                                class="bi bi-house-fill me-2"></i>Home</a>
+                    </li>
+                    <!-- <li class="nav-item rounded">
+                        <a class="nav-link" href="#"><i class="bi bi-people-fill me-2"></i>About</a>
+                    </li> -->
+                    <li class="nav-item rounded">
+                        <a class="nav-link" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- <div class="vh-100 d-flex"> -->
+
+    <div class="box">
+        <br>
+        <center><a class="self">Candidate Assesment</a>
+            <div class="intro"></div>
+        </center><br><br><br>
+        <div class="container">
+            <div class="steps">
+                <span class="circle">1</span>
+                <span class="circle active">2</span>
+                <span class="circle">3</span>
+                <!-- <span class="circle">4</span> -->
+                <div class="progress-bar">
+                    <span class="indicator"></span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <br><br><br>
+
+
+    <center>
+        <div class="asses1" id="asses1">
+            <div class="intro_text" id="intro_text">
+                <a>Consider you as a sales representative from XYZ bank and required to convert a sales call. The
+                    persona of end customer was 28 years old with a monthly income of Rs. 30,000 (Max loan limit of RS.
+                    5,00,000). </a>
+                <br><br><br>
+                <button class="record" id="start" onclick="start();">Start Assesment</button><br><br>
+            </div>
+        </div>
+    </center>
+
+    <div id="recordings" class="recordings">
+        <center><a class="self">Scenario Assesment</a>
+            <br><br>
+            <div class="intro_text1" id="intro_text1">
+                <a>Consider you as a sales representative from XYZ bank and required to convert a sales call. The
+                    persona of end customer was 28 years old with a monthly income of Rs. 30,000 (Max loan limit of RS.
+                    5,00,000). </a>
+            </div>
+
+            <br><br>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <br>
+                    <video id="video" class="video" autoplay muted></video>
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    <div class="chat-container" id="chatContainer">
+                        <h6>Chat Window</h6>
+                        <!-- Messages will appear here -->
+                    </div>
+                </div>
+            </div>
+
+
+            <br><br>
+            <div timer id='timer' class=timer></div><br>
+            <a id="start_text">Click on Start Test to initiate conversation</a><br>
+            <button class="record_start" id="start_record" onclick="start_conversation();">Start
+                Test</button>
+            <button class="record_speak" id="start_speak" onclick="start_speak();">Enable
+                Speech</button>&nbsp;&nbsp;&nbsp;
+            <button onclick="generateReport()">Generate Report</button>
+
+
+            <br><br>
+        </center>
+    </div>
+    <br>
+    <div class="end" id="end"></div>
+</body>
+<script>
+
+    // const videoElement = document.getElementById('video');
+    // const chatContainer = document.getElementById("chatContainer");
+    // let assesment_initiated = false;
+    // const recognition = new webkitSpeechRecognition();
+    // var i = 0;
+    // let startTime;
+    // let wordCount = 0;
+    // let values = [];
+    // var finalText = "";
+    // var initial_conversation = 0;
+    // var finalPrompt = "";
+
+    // function addMessage(text, sender) {
+    //     // Create message element
+    //     const message = document.createElement("div");
+    //     message.classList.add("message");
+    //     message.classList.add(sender === "from" ? "from-message" : "to-message");
+    //     message.textContent = text;
+
+    //     // Append message and auto-scroll
+    //     chatContainer.appendChild(message);
+    //     chatContainer.scrollTop = chatContainer.scrollHeight;
+    // }
+
+    // // // Simulate real-time updates
+    // // setInterval(() => {
+    // //     const messages = ["Hello!", "How are you?", "I'm fine, thanks!", "What's new?"];
+    // //     const randomText = messages[Math.floor(Math.random() * messages.length)];
+    // //     const sender = Math.random() > 0.5 ? "from" : "to";
+    // //     addMessage(randomText, sender);
+    // // }, 2000);
+
+
+    // initial_prompt =
+    //     "You are Raj, a self-employed customer, 28 years old with a monthly income of Rs. 30,000. You have an excellent CIBIL score of 890 and no existing loans. You are considering taking a personal loan and are currently in a conversation with a bank representative from XYZ Bank. The representative (candidate) will call you to pitch a personal loan offer. As Raj, you are slightly hesitant and want to understand the loan details, including the maximum limit of Rs. 5,00,000 and the interest rates ranging from 12% to 10%. You are also curious about the repayment terms, any hidden fees, and whether this loan is suitable for your self-employed status. Your responses should be polite but firm, showing some initial reluctance to help the candidate demonstrate their persuasion skills. Keep the conversation short"
+
+    // console.log(initial_prompt);
+
+
+
+
+    // const camera = new Camera(videoElement, {
+    //     onFrame: async () => {
+    //         await faceMesh.send({ image: videoElement });
+    //     },
+    //     width: 350,
+    //     height: 300,
+    // });
+
+
+    // const faceMesh = new FaceMesh({
+    //     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
+    // });
+
+
+    // faceMesh.setOptions({
+    //     maxNumFaces: 1,
+    //     refineLandmarks: true,
+    //     minDetectionConfidence: 0.7,
+    //     minTrackingConfidence: 0.7,
+    // });
+
+
+
+    // function start() {
+    //     document.getElementById('start').style.display = "none";
+    //     document.getElementById('intro_text').style.display = "none";
+    //     document.getElementById('recordings').style.display = "block";
+    //     const section = document.getElementById('end');
+
+
+
+
+    //     if (section) {
+    //         const sectionTop = section.offsetTop;
+    //         window.scrollTo({
+    //             top: sectionTop,
+    //             behavior: "smooth"
+    //         });
+
+
+    //     }
+    //     camera.start();
+    // }
+
+
+
+    // function start_conversation() {
+    //     countdown(0, 100);
+    //     document.getElementById('start_text').style.display = "none";
+    //     document.getElementById('start_record').style.display = "none";
+    //     assesment_initiated = true;
+    //     playTextToSpeech("Hello! Who is this?")
+
+
+
+    //     if ('webkitSpeechRecognition' in window) {
+
+    //         recognition.lang = 'en-US';
+    //         recognition.interimResults = false;
+    //         recognition.maxAlternatives = 1;
+    //         recognition.continuous = false; // Enable continuous listening
+
+    //         recognition.onstart = function () {
+    //             console.log('Voice recognition started. Speak into the microphone.');
+    //         };
+
+    //         recognition.onresult = function (event) {
+    //             const transcript = event.results[event.resultIndex][0].transcript;
+    //             finalText = finalText + transcript;
+    //             console.log(`Transcribed text: ${transcript}`);
+    //             // document.getElementById('messageInput').value = transcript;
+    //             // addMessageToChat(transcript, 'user');
+    //             // sendMessageToServer(transcript); 
+    //             const transcript1 = event.results[event.results.length - 1][0].transcript.trim();
+    //             // Count words in the transcript
+    //             wordCount += transcript1.split(/\s+/).length;
+
+
+    //             sendData(transcript);
+    //         };
+
+    //         recognition.onerror = function (event) {
+    //             console.error('Speech recognition error: ', event.error);
+    //             // addMessageToChat('Error recognizing speech.', 'response');
+    //         };
+
+    //         recognition.onend = function () {
+    //             console.log('Speech recognition service disconnected');
+
+    //             const endTime = new Date(); // End time
+    //             const timeDiff = (endTime - startTime) / 1000 / 60; // Convert ms to minutes
+
+    //             // Calculate Words Per Minute (WPM)
+    //             const wpm = Math.round(wordCount / timeDiff);
+
+    //             console.log(wpm);
+    //             values.push(wpm);
+
+
+    //             if (assesment_initiated == true) {
+    //                 wordCount = 0;
+    //                 startTime = new Date(); // Start the timer
+    //                 // recognition.start(); // Restart recognition when it ends
+    //             }
+    //         };
+
+    //         if (assesment_initiated == true) {
+    //             wordCount = 0;
+    //             startTime = new Date(); // Start the timer
+    //             recognition.start(); // Restart recognition when it ends
+    //         }
+    //     } else {
+    //         alert("Speech Recognition is not supported in this browser. Try using Chrome.");
+    //     }
+
+    // }
+
+
+
+
+    // async function playTextToSpeech(text) {
+    //     const speech = new SpeechSynthesisUtterance(text);
+    //     speech.lang = 'en-US';
+    //     await speechSynthesis.speak(speech);
+    //     if(initial_conversation >= 1){
+    //     recognition.start();
+    //     }
+    // }
+
+
+
+
+    // async function sendData(val) {
+
+    //     if (initial_conversation == 0) {
+
+    //         finalPrompt = initial_prompt + "The sales candidate conversation was" + val + "Answer next question based on old conversation in short lines";
+
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "http://localhost:8080/gemini/",
+    //             data: JSON.stringify({ "message": finalPrompt }),
+    //             contentType: "application/json",
+    //             success: function (result) {
+    //                 // console.log(result);
+    //                 let statusMessage = result.status;
+    //                 console.log("Status:", statusMessage);
+    //                 // recognition.stop();
+    //                 playTextToSpeech(statusMessage);
+    //                 // recognition.start();
+
+    //             },
+    //             error: function (result, status) {
+    //                 console.log(result);
+    //             }
+    //         });
+
+
+    //         initial_conversation = initial_conversation + 1;
+    //     } else {
+
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "http://localhost:8080/gemini/",
+    //             data: JSON.stringify({"message":val}),
+    //             // data: JSON.stringify({ "message": finalPrompt + "The sales candidate conversation was" + val + "Answer next question based on old conversation in short lines" }),
+    //             contentType: "application/json",
+    //             success: function (result) {
+    //                 // console.log(result);
+    //                 let statusMessage = result.status;
+    //                 console.log("Status:", statusMessage);
+    //                 // recognition.stop();
+    //                 playTextToSpeech(statusMessage);
+
+    //             },
+    //             error: function (result, status) {
+    //                 console.log(result);
+    //             }
+    //         });
+    //     }
+
+
+    // }
+
+
+    // var timeoutHandle;
+    // function countdown(minutes, seconds) {
+    //     function tick() {
+    //         var counter = document.getElementById("timer");
+    //         counter.innerHTML =
+    //             "Time Remaining: " + minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+
+    //         if (assesment_initiated == true) {
+    //             seconds--;
+    //         }
+
+    //         if (minutes == 0 && seconds == 0) {
+    //             recognition.stop();
+    //             assesment_initiated = false;
+    //             camera.stop();
+    //             if (i == 0) {
+    //                 Swal.fire({
+    //                     allowOutsideClick: false,
+    //                     title: "Alert",
+    //                     text: "Timeout! Kindly move to next session",
+    //                     icon: "info"
+    //                 }).then(function () {
+    //                     stopRecord();
+    //                 });
+    //                 i = i + 1;
+    //             }
+    //         }
+    //         if (seconds >= 0) {
+    //             timeoutHandle = setTimeout(tick, 1000);
+    //         } else {
+    //             if (minutes >= 1) {
+    //                 // countdown(mins-1);   never reach “00″ issue solved:Contributed by Victor Streithorst
+    //                 setTimeout(function () {
+    //                     countdown(minutes - 1, 59);
+    //                 }, 1000);
+    //             }
+    //         }
+    //     }
+    //     tick();
+    // }
+
+
+
+    // Define the video element, chat container, and recognition variables
+    var sessionId;
+    var userId;
+    var email;
+    var userName;
+    // try {
+    //     const getCookie = name => document.cookie.split('; ').find(row => row.startsWith(name + '=')).split('=')[1];
+    //     if (!getCookie('userId')) window.location.href = './login.html'
+    //     userId = getCookie('userId'), userName = getCookie('userName'), email = getCookie('email');
+    //     const params = new URLSearchParams(window.location.search);
+    //     sessionId = params.get('session'); // Replace 'parameterName' with the name of your query parameter
+    // } catch (e) {
+    //     window.location.href = "./login.html";
+    // }
+
+
+    const videoElement = document.getElementById('video');
+    const chatContainer = document.getElementById("chatContainer");
+    let assesment_initiated = false;
+    const recognition = new webkitSpeechRecognition();
+    var assesment_initiated_failed = false;
+    var i = 0;
+    let startTime;
+    let wordCount = 0;
+    let values = [];
+    var finalText = "";
+    var initial_conversation = 0;
+    var finalPrompt = "";
+    var conversation = "";
+    var name = "Karthi";
+    const positiveWords = ["happy", "love", "good", "great", "fantastic", "amazing", "enjoy"];
+    const negativeWords = ["sad", "hate", "bad", "terrible", "awful", "horrible"];
+    let emotionAverages = [];
+    let secondEmotionBuffer = [];
+    let emotionInterval;
+    let audioChunks = [];
+    let videoChunks = [];
+    let audioRecorder;
+    let videoRecorder;
+    let audioStream;
+    var audioBlob;
+    var videoBlob;
+    var face = 0;
+    const recordedChunks = [];
+    var avg;
+    var finalsentimat;
+    let timerInterval;
+
+    const faceMesh = new FaceMesh({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}` });
+    faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.7, minTrackingConfidence: 0.7 });
+    const camera = new Camera(videoElement, {
+        onFrame: async () => { await faceMesh.send({ image: videoElement }); },
+        width: 350,
+        height: 300,
+    });
+
+    faceMesh.setOptions({
+        maxNumFaces: 1,
+        refineLandmarks: true,
+        minDetectionConfidence: 0.7,
+        minTrackingConfidence: 0.7,
+    });
+
+
+    function ratio(p1, p2, p3, p4) {
+        const dist1 = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        const dist2 = Math.hypot(p4.x - p3.x, p4.y - p3.y);
+        return dist1 / dist2;
+    }
+
+    let emotionHistory = [];
+
+
+    function startEmotionAveraging() {
+        emotionInterval = setInterval(() => {
+            if (secondEmotionBuffer.length > 0) {
+                const emotionFrequency = secondEmotionBuffer.reduce((acc, emotion) => {
+                    acc[emotion] = (acc[emotion] || 0) + 1;
+                    return acc;
+                }, {});
+                const avgEmotion = Object.keys(emotionFrequency).reduce((a, b) =>
+                    emotionFrequency[a] > emotionFrequency[b] ? a : b
+                );
+                if (assesment_initiated == true) {
+                    emotionAverages.push(avgEmotion);
+                    console.log(`Averaged Emotion: ${avgEmotion}`);
+                    secondEmotionBuffer = [];
+                }
+            }
+        }, 1000);
+    }
+
+    function stopEmotionAveraging() {
+        clearInterval(emotionInterval);
+        console.log("Final Emotions Array:", emotionAverages);
+    }
+
+
+
+    function redirect() {
+        Swal.fire({
+            allowOutsideClick: false,
+            title: "Alert",
+            text: "Something went wrong",
+            icon: "info"
+        }).then(function () {
+            window.location.href = `./main.html`;
+        });
+    }
+
+
+    function analyzeSentiment(val) {
+        let score = 0;
+
+        // Tokenize and analyze each word
+        const words = val.split(/\s+/);
+        words.forEach(word => {
+            if (positiveWords.includes(word)) score++;
+            else if (negativeWords.includes(word)) score--;
+        });
+
+        // Determine overall sentiment
+        const result = score > 0 ? "Positive" : score < 0 ? "Negative" : "Neutral";
+        console.log(result);
+        return result;
+    }
+
+
+
+
+    faceMesh.onResults((results) => {
+        // canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        // canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+        if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+            const landmarks = results.multiFaceLandmarks[0];
+
+            // Calculate key ratios
+            const eyeOpenness = ratio(landmarks[159], landmarks[145], landmarks[386], landmarks[374]); // Eye openness ratio
+            const browRaise = ratio(landmarks[70], landmarks[159], landmarks[300], landmarks[386]); // Brow raise ratio
+            const mouthOpenness = ratio(landmarks[13], landmarks[14], landmarks[61], landmarks[291]); // Mouth openness ratio
+
+            // console.log(`Eye: ${eyeOpenness}, Brow: ${browRaise}, Mouth: ${mouthOpenness}`);
+
+            let detectedEmotion = "Neutral";
+
+            // Adjusted conditions for better detection
+            if (mouthOpenness > 0.65 && eyeOpenness > 0.35 && browRaise > 0.5) {
+                detectedEmotion = "Yawning";
+            } else if (browRaise > 1.2 && mouthOpenness < 0.05 && eyeOpenness > 1.05) {
+                detectedEmotion = "Angry"; // Low brow raise, clenched mouth, eyes slightly open
+                // } else if (eyeOpenness < 0.15 && browRaise < 0.35) {
+                //     detectedEmotion = "Sad"; // Small eye and brow movement
+            } else if (mouthOpenness > 0.1 && browRaise < 1.2) {
+                detectedEmotion = "Happy"; // Big smile and raised brows
+                // } else if (mouthOpenness < 0.2 && browRaise < 0.3) {
+                //     detectedEmotion = "Disgust"; // Limited mouth and brow movement
+            } else if (browRaise > 0.8 && eyeOpenness < 0.9) {
+                detectedEmotion = "Fear"; // High brows with squinting eyes
+            }
+
+            // Store recent emotions to smooth detection
+            emotionHistory.push(detectedEmotion);
+            if (emotionHistory.length > 10) emotionHistory.shift();
+
+            const mostFrequentEmotion = emotionHistory
+                .reduce((acc, curr) => {
+                    acc[curr] = (acc[curr] || 0) + 1;
+                    return acc;
+                }, {});
+
+            const dominantEmotion = Object.keys(mostFrequentEmotion).reduce((a, b) =>
+                mostFrequentEmotion[a] > mostFrequentEmotion[b] ? a : b
+            );
+
+            // emotionElement.textContent = `Emotion: ${dominantEmotion}`;
+
+            console.log(dominantEmotion);
+
+            // Draw facial landmarks
+            landmarks.forEach((landmark) => {
+                // canvasCtx.beginPath();
+                // canvasCtx.arc(landmark.x * canvasElement.width, landmark.y * canvasElement.height, 2, 0, 2 * Math.PI);
+                // canvasCtx.fillStyle = 'red';
+                // canvasCtx.fill();
+            });
+
+            secondEmotionBuffer.push(dominantEmotion);
+        } else {
+            if (assesment_initiated == true && assesment_initiated_failed == false) {
+                assesment_initiated_failed = true;
+                assesment_initiated = false;
+                camera.stop();
+                Swal.fire({
+                    allowOutsideClick: false,
+                    title: "Alert",
+                    text: "Face Not Detected",
+                    icon: "error"
+                }).then(function () {
+                    stopRecord();
+                });
+            }
+        }
+    });
+
+
+
+
+
+    // Add chat message
+    function addMessage(text, sender) {
+        const message = document.createElement("div");
+        message.classList.add("message", sender === "from" ? "from-message" : "to-message");
+        message.textContent = text;
+        chatContainer.appendChild(message);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+
+    function start_speak() {
+        recognition.start();
+    }
+
+
+    function categorizeWPM(wpm) {
+        if (wpm < 100) {
+            return "Bad (Too Slow)";
+        } else if (wpm >= 100 && wpm < 150) {
+            return "Normal";
+        } else if (wpm >= 150 && wpm < 200) {
+            return "Good (Medium/Fast)";
+        } else {
+            return "Very Fast";
+        }
+    }
+
+
+
+    async function formSubmit() {
+
+        if (event) event.preventDefault();
+        if (!audioBlob || !videoBlob) {
+        console.log("Blob data is not ready yet.");
+        return;
+    }
+
+
+    console.log("submitting");
+
+        const formData = new FormData();
+
+
+        formData.append("username", name);
+        formData.append("emotionData", JSON.stringify(emotionAverages));
+        formData.append("textData", finalText);
+        formData.append("videoFile", videoBlob, "recording.mp4");
+        formData.append("audioFile", audioBlob, "recording.webm");
+        formData.append("wpm", avg);
+        formData.append("userId", email);
+        formData.append("sessionId", sessionId);
+        formData.append("sentiment_data", finalsentiment)
+
+
+        if (face == 1) {
+          try {
+            const response = await fetch('http://localhost:8080/uploadbot', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            console.log("Response data:", data);
+
+            // Redirect after successful submission
+            window.location.href = `./report.html?session=${sessionId}`;
+        } catch (error) {
+            console.error("Error during upload:", error);
+            window.location.href = `./report.html?session=${sessionId}`;
+        }
+        } else {
+            redirect();
+        }
+    }
+
+
+
+
+    // FaceMesh and Camera setup
+
+
+
+    function stopRecord() {
+        if (assesment_initiated == false) {
+            audioRecorder.stop();
+            mediaRecorder.stop();
+            console.log(finalText);
+            // analyzeSentiment(finalText);
+
+
+            avg = values.reduce((a, b) => a + b, 0) / values.length;
+            console.log(categorizeWPM(avg));
+
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>..Work1");
+            stopEmotionAveraging();
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>..Work2");
+            videoStream.getTracks().forEach(track => track.stop());
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>..Work3");
+            console.log("ENtering");
+
+            audioRecorder.onstop = async (event) => {
+                console.log("Audio closed");
+                audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                console.log(audioBlob instanceof Blob);
+                console.log('Audio Blob:', audioBlob);
+            };
+
+
+            // Handle video recording stop
+            mediaRecorder.onstop = async (event) => {
+                console.log("Video closed");
+                videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+            }
+
+
+            finalsentiment = analyzeSentiment(finalText);
+
+
+            Swal.fire({
+                title: "Submitting Please Wait!",
+                html: "You will be redirected in <b></b> milliseconds.",
+                allowOutsideClick: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            }).then((result) => {
+            });
+
+            setInterval(
+                function () {   formSubmit();  },
+                3000
+            );
+           
+
+            setInterval(
+                function () {  window.location.href = `./success.html`;  },
+                3100
+            );
+
+        }
+    }
+
+
+
+    async function initializeMediaRecorder() {
+        console.log("recorded started");
+        videoStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+        videoElement.srcObject = videoStream;
+
+        mediaRecorder = new MediaRecorder(videoStream, { mimeType: 'video/webm' });
+        mediaRecorder.ondataavailable = (event) => recordedChunks.push(event.data);
+
+
+        audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioRecorder = new MediaRecorder(audioStream, { mimeType: 'audio/webm' });
+        audioRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+        mediaRecorder.start();
+        audioRecorder.start();
+
+    }
+
+
+
+
+
+
+    // Start camera function
+    function start() {
+        document.getElementById('start').style.display = "none";
+        document.getElementById('intro_text').style.display = "none";
+        document.getElementById('recordings').style.display = "block";
+        document.getElementById('end')?.scrollIntoView({ behavior: "smooth" });
+        camera.start();
+    }
+
+    // Start conversation and voice recognition setup
+    function start_conversation() {
+        countdown(0, 30);
+        document.getElementById('start_text').style.display = "none";
+        document.getElementById('start_record').style.display = "none";
+        assesment_initiated = true;
+        document.getElementById('start_speak').style.display = "block";
+        startEmotionAveraging();
+        initializeMediaRecorder();
+
+        // playTextToSpeech("Hello! Who is this?");
+        // sendData("Hi! "+name+ " here, calling from XYZ bank!")
+
+        if ('webkitSpeechRecognition' in window) {
+            recognition.lang = 'en-IN';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            recognition.continuous = false;
+
+            recognition.onstart = () => console.log('Voice recognition started.');
+            recognition.onresult = (event) => handleRecognitionResult(event);
+            recognition.onerror = function (event) {
+
+                document.getElementById('start_speak').style.display = "block";
+            }
+
+            recognition.onend = function () {
+                console.log('Speech recognition service disconnected');
+
+                const endTime = new Date(); // End time
+                const timeDiff = (endTime - startTime) / 1000 / 60; // Convert ms to minutes
+
+                // Calculate Words Per Minute (WPM)
+                const wpm = Math.round(wordCount / timeDiff);
+
+                console.log(wpm);
+                values.push(wpm);
+
+
+                if (assesment_initiated == true) {
+                    wordCount = 0;
+                    startTime = new Date(); // Start the timer
+                    // recognition.start(); // Restart recognition when it ends
+                }
+            };
+
+            if (assesment_initiated == true) {
+                wordCount = 0;
+                startTime = new Date();
+                recognition.start();
+            }
+        } else {
+            alert("Speech Recognition is not supported in this browser. Try using Chrome.");
+        }
+    }
+
+    // Process speech recognition results
+    function handleRecognitionResult(event) {
+        const transcript = event.results[event.resultIndex][0].transcript;
+        finalText += transcript;
+        wordCount += transcript.split(/\s+/).length;
+        sendData(transcript);
+    }
+
+    // Handle recognition end event
+    function handleRecognitionEnd() {
+        const endTime = new Date();
+        const timeDiff = (endTime - startTime) / 60000;
+        const wpm = Math.round(wordCount / timeDiff);
+        console.log("WPM:", wpm);
+        values.push(wpm);
+
+        if (assesment_initiated) {
+            wordCount = 0;
+            startTime = new Date();
+        }
+    }
+
+    // Text-to-Speech with recognition control
+    async function playTextToSpeech(text) {
+        recognition.stop();  // Disable recognition before speaking
+        // addMessage(text, "to");
+        const speech = new SpeechSynthesisUtterance(text);
+        speech.lang = 'en-IN';
+
+        // Restart recognition after TTS completes
+        speech.onend = () => {
+            if (assesment_initiated) recognition.start();
+        };
+
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+
+        await speechSynthesis.speak(speech);
+    }
+
+    // Send data to the server
+    let fullConversation = "";
+
+    function sendData(val) {
+    const fMsg = "The older conversation was " + conversation + ". The current question was " + val;
+    addMessage(val, "from");
+    fullConversation += `User: ${val}\n`; // Append user's message
+    const messageData = { message: fMsg };
+    initial_conversation += 1;
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/gemini",
+        data: JSON.stringify(messageData),
+        contentType: "application/json",
+        success: (result) => {
+            console.log(result);
+
+            const parsedData = JSON.parse(result.status);
+            conversation = parsedData.conversation; // Array of conversation strings
+            const answer = parsedData.answer; // The answer text
+
+            addMessage(answer, "to");
+            fullConversation += `Bot: ${answer}\n`; // Append bot's response
+            playTextToSpeech(answer);
+
+            // Automatically save conversation progress
+            localStorage.setItem("conversationData", fullConversation);
+        },
+        error: (result, status) => console.log("Error:", result),
+    });
+}
+
+
+
+    var timeoutHandle;
+    // Countdown timer for assessment
+    function countdown(minutes, seconds) {
+        function tick() {
+            document.getElementById("timer").textContent = `Time Remaining: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+            if (assesment_initiated) seconds--;
+            if (minutes === 0 && seconds === 0) handleTimeout();
+            else if (seconds >= 0) setTimeout(tick, 1000);
+            else if (minutes >= 1) setTimeout(() => countdown(minutes - 1, 59), 1000);
+        }
+        tick();
+    }
+
+    // Handle assessment timeout
+    function handleTimeout() {
+        recognition.stop();
+        assesment_initiated = false;
+        camera.stop();
+        if (i == 0) {
+            Swal.fire({
+                allowOutsideClick: false,
+                title: "Alert",
+                text: "Timeout! Kindly move to next session",
+                icon: "info"
+            }).then(function () {
+                face = 1;
+                stopRecord();
+            });
+            i = i + 1;
+        }
+    }
+
+
+
+
+    
+//     async function checkSession() {
+//         console.log("Here");
+//         window.location.href = './report2.html';
+//     // try {
+//     //     const response = await fetch('http://localhost:8080/sessiondatachecktask', {
+//     //         method: 'POST',
+//     //         headers: {
+//     //             'Content-Type': 'application/json'
+//     //         },
+//     //         body: JSON.stringify({ sessionid: sessionId })
+//     //     });
+        
+//     //     const data = await response.json();
+//     //     console.log(data);
+
+//     //     if (data.status === 'success') {
+//     //         console.log("Session found:", data.data);
+//     //        window.location.href = './report2.html';
+
+
+//     //     } else {
+//     //         // console.log("No active session found.");
+//     //         // alert("No active session found.");
+//     //     }
+//     // } catch (error) {
+//     //     console.error("Error checking session:", error);
+//     // }
+// }
+
+
+
+
+// async function checkSessions() {
+//         console.log("Here");
+//         window.location.href = './report2.html';
+//     // try {
+//     //     const response = await fetch('http://localhost:8080/sessiondatacheck', {
+//     //         method: 'POST',
+//     //         headers: {
+//     //             'Content-Type': 'application/json'
+//     //         },
+//     //         body: JSON.stringify({ sessionid: sessionId })
+//     //     });
+        
+//     //     const data = await response.json();
+//     //     console.log(data);
+
+//     //     if (data.status === 'success') {
+         
+
+
+//     //     } else {
+//     //         // console.log("No active session found.");
+//     //         // alert("No active session found.");
+//     //         window.location.href = './task3.html?session='+sessionId;
+//     //     }
+//     // } catch (error) {
+//     //     console.error("Error checking session:", error);
+//     // }
+// }
+
+
+// checkSessions();
+
+
+
+</script>
+
+
+</html>
